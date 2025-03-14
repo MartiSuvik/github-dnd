@@ -443,32 +443,33 @@ const Footer = forwardRef<HTMLElement, FooterProps>((_props, ref) => {
                 </div>
 
                 {/* Map (smaller on mobile) */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <h3 className="text-lg font-medium text-gray-900">
-                      Location
-                    </h3>
-                    <a
-                      href="https://maps.google.com/?q=2615+East+17th+Street+Brooklyn,+New+York+11235,+USA"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#C5A267] text-sm flex items-center gap-1"
-                    >
-                      View on Google Maps <ArrowUpRight className="w-4 h-4" />
-                    </a>
+                { isExpanded && (
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-lg font-medium text-gray-900">Location</h3>
+                      <a
+                        href="https://maps.google.com/?q=2615+East+17th+Street+Brooklyn,+New+York+11235,+USA"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#C5A267] text-sm flex items-center gap-1"
+                      >
+                        View on Google Maps <ArrowUpRight className="w-4 h-4" />
+                      </a>
+                    </div>
+                    <div className="h-[200px] md:h-[250px] rounded-lg overflow-hidden">
+                      <iframe
+                        title="D&D Design Center Location"
+                        width="100%"
+                        height="100%"
+                        frameBorder="0"
+                        style={{ border: 0 }}
+                        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBLSNeo65Xg4Imwlxq-2GGCARWAIjVk5Ek&q=2615 East 17th Street, Brooklyn, New York 11235, USA&zoom=15`}
+                        allowFullScreen
+                      />
+                    </div>
                   </div>
-                  <div className="h-[200px] md:h-[250px] rounded-lg overflow-hidden">
-                    <iframe
-                      title="D&D Design Center Location"
-                      width="100%"
-                      height="100%"
-                      frameBorder="0"
-                      style={{ border: 0 }}
-                      src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBLSNeo65Xg4Imwlxq-2GGCARWAIjVk5Ek&q=2615 East 17th Street, Brooklyn, New York 11235, USA&zoom=15`}
-                      allowFullScreen
-                    />
-                  </div>
-                </div>
+                )}
+
               </div>
 
               {/* Footer bottom row (mobile) */}
@@ -655,17 +656,20 @@ const Footer = forwardRef<HTMLElement, FooterProps>((_props, ref) => {
                 </div>
 
                 {/* Map */}
-                <div className="h-[300px] rounded-lg overflow-hidden">
-                  <iframe
-                    title="D&D Design Center Location"
-                    width="100%"
-                    height="100%"
-                    frameBorder="0"
-                    style={{ border: 0 }}
-                    src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBLSNeo65Xg4Imwlxq-2GGCARWAIjVk5Ek&q=2615 East 17th Street, Brooklyn, New York 11235, USA&zoom=15`}
-                    allowFullScreen
-                  />
-                </div>
+                { isExpanded && (
+                  <div className="h-[300px] rounded-lg overflow-hidden">
+                    <iframe
+                      title="D&D Design Center Location"
+                      width="100%"
+                      height="100%"
+                      frameBorder="0"
+                      style={{ border: 0 }}
+                      src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBLSNeo65Xg4Imwlxq-2GGCARWAIjVk5Ek&q=2615 East 17th Street, Brooklyn, New York 11235, USA&zoom=15`}
+                      allowFullScreen
+                    />
+                  </div>
+                )}
+
               </div>
 
               {/* Footer bottom row (desktop) */}
