@@ -89,11 +89,12 @@ const ProductGalleryContent: React.FC = () => {
     'Light',
     'Bath',
     'Outdoor',
-    'Office'
+    'Office',
+    'Closets'
   ];
 
-  const kitchenStyles = ['Modern', 'Traditional', 'Art Deco'];
-  const furnitureTypes = ['Living Room', 'Dining Room', 'Bedroom'];
+  const kitchenStyles = ['Modern', 'Traditional', 'Art_Deco'];
+  const furnitureTypes = ['Living', 'Dining', 'Bedroom'];
 
   // 1) Basic GSAP for categories (unchanged)
   useEffect(() => {
@@ -133,40 +134,60 @@ const ProductGalleryContent: React.FC = () => {
     }
   }, [selectedRoom, activeTab]);
 
-  // 2) Fetch projects from Airtable
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         setLoading(true);
-
+  
         const base = new Airtable({
           apiKey: import.meta.env.VITE_AIRTABLE_API_KEY,
         }).base(import.meta.env.VITE_AIRTABLE_BASE_ID);
-
+  
         const records = await base('database').select().all();
-        const fetchedProjects = records.map((record, index) => ({
-          id: record.id,
-          title: record.fields['Title'] as string,
-          room: record.fields['Room'] as string,
-          style: record.fields['Style'] as string,
-          imageUrl: record.fields['Cloudinary URL'] as string,
-          styleName: styleNames[index % styleNames.length],
-        }));
-
+  
+        const fetchedProjects = records.map((record, index) => {
+          const room = record.fields['Room'] as string;
+          const style = record.fields['Style'] as string;
+          const title = record.fields['Title'] as string;
+          
+          // Get the public ID from Airtable. It might be just a Public ID or a full URL.
+          const publicId = record.fields['Cloudinary URL'] as string;
+          let imageUrl = '';
+  
+          // If publicId already starts with "https://", assume it's a full URL.
+          if (publicId.startsWith("https://")) {
+            // If it already ends with .avif, use it directly.
+            imageUrl = publicId.endsWith('.avif') ? publicId : `${publicId}.avif`;
+          } else {
+            // Otherwise, build the full URL.
+            imageUrl = `https://res.cloudinary.com/designcenter/image/upload/${publicId}.avif`;
+          }
+  
+          return {
+            id: record.id,
+            title,
+            room,
+            style,
+            imageUrl,
+            styleName: styleNames[index % styleNames.length],
+          };
+        });
+  
         setProjects(fetchedProjects);
         setVisibleProjects(fetchedProjects.slice(0, ITEMS_PER_PAGE));
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'Failed to fetch projects'
-        );
+        setError(err instanceof Error ? err.message : 'Failed to fetch projects');
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchProjects();
   }, []);
-
+  
+  
+  
+  
   // 3) Update visible projects on filter changes
   useEffect(() => {
     let filtered = [...projects];

@@ -92,9 +92,9 @@ const Footer = forwardRef<HTMLElement, FooterProps>((_props, ref) => {
     content.style.display = 'block';
 
     if (isExpanded) {
-      // On mobile, limit the max height; on desktop, expand fully
-      if (isMobile) {
-        content.style.height = '70vh'; // scrollable area for mobile
+      // For mobile and tablet (768-992): limit max height and allow scrolling; else expand fully
+      if (isMobile || (window.innerWidth >= 768 && window.innerWidth <= 992)) {
+        content.style.height = '70vh';
         content.style.overflowY = 'auto';
       } else {
         const height = content.scrollHeight;
@@ -106,7 +106,7 @@ const Footer = forwardRef<HTMLElement, FooterProps>((_props, ref) => {
       content.style.opacity = '1';
       setIsVisible(true);
     } else {
-      if (isMobile) {
+      if (isMobile || (window.innerWidth >= 768 && window.innerWidth <= 992)) {
         content.style.height = '0';
       } else {
         content.style.height = `${content.scrollHeight}px`;
@@ -137,8 +137,8 @@ const Footer = forwardRef<HTMLElement, FooterProps>((_props, ref) => {
         if (!isNearBottom) {
           setIsVisible(false);
         }
-      } else if (!isMobile) {
-        // Let desktop expand fully
+      } else if (!isMobile && window.innerWidth > 992) {
+        // Let desktop expand fully only if wider than 992
         content.style.height = 'auto';
       }
     };

@@ -52,53 +52,89 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
       setIsLoading(true);
       setError(null);
       
+      
+
       const base = new Airtable({ apiKey: import.meta.env.VITE_AIRTABLE_API_KEY })
         .base(import.meta.env.VITE_AIRTABLE_BASE_ID);
+  
+        function normalizeRoom(room: string): string {
+          let lower = room.trim().toLowerCase();
+          return lower.charAt(0).toUpperCase() + lower.slice(1);
+        }
 
-      // Determine the filter based on category and style
-      let filterFormula = '';
-      
-      if (category === 'KITCHEN') {
-        // For Kitchen, filter by category and style
-        filterFormula = `AND({Room} = 'Kitchen', {Style} = '${style}')`;
-      } else if (category === 'LIVING ROOM' || category === 'DINING ROOM' || category === 'BEDROOM') {
-        // For Furniture subcategories, filter by room
-        filterFormula = `{Room} = '${category}'`;
+        function normalizeStyle(style: string): string {
+          if (style.trim().toLowerCase() === "art_deco") return "Art_Deco"; // Special case
+          return style
+            .trim()
+            .toLowerCase()
+            .split(/\s+/) // Split by spaces
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join("_"); // Join with underscores
+        }        
+        
+  
+      // ✅ Always treat the first argument as the Room, second as the Style
+      const normalizedRoom = normalizeRoom(category);
+      const normalizedStyle = normalizeStyle(style);
+  
+      console.log("Normalized Room:", normalizedRoom);
+      console.log("Normalized Style:", normalizedStyle);
+  
+      let filterByFormula = "";
+      if (normalizedStyle === "NONE") {
+        // Only filter by Room
+        filterByFormula = `{Room} = '${normalizedRoom}'`;
       } else {
-        // For other main categories, filter by category
-        filterFormula = `{Room} = '${category}'`;
-      }
-
-      const records = await base('database')
-        .select({
-          filterByFormula: filterFormula
-        })
+        // Filter by both
+        filterByFormula = `AND({Room} = '${normalizedRoom}', {Style} = '${normalizedStyle}')`;
+      }      
+  
+      const records = await base("database")
+        .select({ filterByFormula })
         .all();
-
-      const fetchedPhotos = records.map(record => ({
-        id: record.id,
-        url: record.fields['Cloudinary URL'] as string,
-        category: record.fields['Room'] as string,
-        style: record.fields['Style'] as string,
-      }));
-
-      if (fetchedPhotos.length === 0) {
-        throw new Error('No images found for this category and style.');
+  
+      console.log("Number of records found:", records.length);
+      if (records.length === 0) {
+        throw new Error("No images found for this category and style.");
       }
-
+  
+      const fetchedPhotos = records.map(record => {
+        const publicId = record.fields["Cloudinary URL"] as string;
+        let imageUrl = "";
+  
+        if (publicId.startsWith("https://")) {
+          imageUrl = publicId.endsWith(".avif") ? publicId : `${publicId}.avif`;
+        } else {
+          imageUrl = `https://res.cloudinary.com/designcenter/image/upload/${publicId}.avif`;
+        }
+  
+        console.log(
+          `Record ID: ${record.id} | Public ID: ${publicId} | Computed imageUrl: ${imageUrl}`
+        );
+  
+        return {
+          id: record.id,
+          url: imageUrl,
+          category: record.fields["Room"] as string,
+          style: record.fields["Style"] as string,
+        };
+      });
+  
       setPhotos(fetchedPhotos);
-      // Preload the first image after setting the photos
+  
+      // Preload the first image
       if (fetchedPhotos.length > 0) {
         await preloadImage(fetchedPhotos[0].url);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load images');
-      console.error('Error fetching photos:', err);
+      setError(err instanceof Error ? err.message : "Failed to load images");
+      console.error("Error fetching photos:", err);
     } finally {
       setIsLoading(false);
     }
   };
-
+  
+  
   const preloadImage = (url: string): Promise<void> => {
     if (preloadedImages.current.has(url)) {
       return Promise.resolve();

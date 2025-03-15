@@ -253,6 +253,22 @@ const HomeProjectsCards = () => {
     }
   };
 
+  function normalizeStyle(title: string): string {
+    // Trim whitespace, convert to uppercase, replace spaces with underscores,
+    // and remove any non-alphanumeric characters (except underscores)
+    return title
+      .trim()
+      .toUpperCase()
+      .replace(/\s+/g, "_")
+      .replace(/[^A-Z0-9_]/g, "");
+  }
+  function normalizeRoom(title: string): string {
+    return title
+      .trim()
+      .toUpperCase()
+      .replace(/\s+/g, "_")
+      .replace(/[^A-Z0-9_]/g, "");
+  }
   return (
     <section
       id="HomeProjectsCards"
@@ -425,19 +441,24 @@ const HomeProjectsCards = () => {
   ))}
 </div>
 
-      {/* Image Gallery (modal) */}
-      {selectedItem && (
-        <ImageGallery
-          category={selectedItem.title}
-          style={
-            displayLevel === "sub"
-              ? mainCategories.find((cat) => cat.id === currentParentId)
-                  ?.title || ""
-              : "Modern"
-          }
-          onClose={handleClose}
-        />
-      )}
+{selectedItem && (
+  <ImageGallery
+    // ✅ Normalize Room & Style to match Airtable's format
+    category={
+      displayLevel === "sub"
+        ? normalizeRoom(mainCategories.find((cat) => cat.id === currentParentId)?.title || "")
+        : normalizeRoom(selectedItem.title)
+    }
+    style={
+      displayLevel === "sub"
+        ? normalizeStyle(selectedItem.title)
+        : "NONE" // or "N/A" if main category has no sub-styles
+    }
+    onClose={handleClose}
+  />
+)}
+
+
 
       {/* Footer buttons */}
       <div className="mt-6 flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 px-4">

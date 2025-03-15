@@ -115,7 +115,7 @@ const VisionnaireSection = () => {
             {/* Visionnaire logo overlay */}
             <div className="absolute bottom-4 md:bottom-8 right-4 md:right-6 bg-black/50 backdrop-blur-sm p-2 md:p-3 rounded">
               <img 
-                src="https://res.cloudinary.com/dnddesigncenter/image/upload/v1739957686/cf8dleiw01xgbjhmkcsk.svg" 
+                src="https://res.cloudinary.com/designcenter/image/upload/Visionnaire_Logo.svg" 
                 alt="Visionnaire" 
                 className="h-6 md:h-8 w-auto invert"
               />
