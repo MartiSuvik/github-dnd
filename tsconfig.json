@@ -1,0 +1,16 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "jsx": "react",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "moduleResolution": "node",
+    "baseUrl": "./src", // ✅ Set base URL to `src`
+    "paths": {
+      "@hooks/*": ["hooks/*"] // ✅ Add alias for hooks
+    }
+  }
+}
