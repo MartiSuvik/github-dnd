@@ -101,7 +101,7 @@ export function HeroScrollDemoProduct() {
       >
         <div className="w-full h-full flex flex-col">
           <video
-            src="https://res.cloudinary.com/dnddesigncenter/video/upload/Products_2.mp4"
+            src="https://res.cloudinary.com/designcenter/video/upload/New_York_City_Furniture_Design.mp4"
             autoPlay
             muted
             loop

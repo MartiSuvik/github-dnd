@@ -112,7 +112,7 @@ const ProductCollectionHero = () => {
         className="absolute bottom-8 md:bottom-12 left-1/2 transform -translate-x-1/2 cursor-pointer"
       >
         <ScrollArrow
-          targetId="HomeProjectsCards"
+          targetId="product-gallery"
           className="w-10 h-10 md:w-12 md:h-12 text-white hover:text-[#C5A267] transition-colors duration-300"
         />
       </div>

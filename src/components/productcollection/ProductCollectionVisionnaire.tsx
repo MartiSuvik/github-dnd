@@ -206,10 +206,9 @@ const ProductCollectionVisionnaire: React.FC = () => {
                   preload="metadata"
                 >
                   <source
-  src="https://res.cloudinary.com/dnddesigncenter/video/upload/f_auto,q_auto:good/luxury-design-catalogue.mp4"
-  type="video/mp4"
-/>
-
+                    src="https://res.cloudinary.com/designcenter/video/upload/f_auto,q_auto:good/visionnaire-luxury-collection.mp4"
+                    type="video/mp4"
+                  />
                   Your browser does not support the video tag.
                 </video>
               </div>
