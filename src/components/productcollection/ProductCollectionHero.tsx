@@ -57,7 +57,7 @@ const ProductCollectionHero = () => {
       <div className="absolute inset-0 w-full h-full">
         <img
           ref={imageRef}
-          src="https://res.cloudinary.com/designcenter/image/upload/Home/Product_2/Kitchen/Kitchen_Traditional_6.avif"
+          src="https://res.cloudinary.com/designcenter/image/upload/Home/Product_2/Kitchen/Traditional/Kitchen_Traditional_6.avif"
           alt="Luxury furniture collection showcasing high-end Italian craftsmanship"
           className="absolute inset-0 w-full h-full object-cover scale-105"
           loading="eager"

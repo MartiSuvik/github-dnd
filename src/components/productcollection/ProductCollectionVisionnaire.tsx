@@ -201,8 +201,7 @@ const ProductCollectionVisionnaire: React.FC = () => {
                   muted
                   loop
                   playsInline
-                  poster="https://res.cloudinary.com/dnddesigncenter/image/upload/f_auto/v1740566639/qtc6byie8s2vb0jgzrna.jpg"
-
+                  poster="https://res.cloudinary.com/designcenter/image/upload/Bespoke_Furniture_Collection_In_New_York_City.avif"
                   preload="metadata"
                 >
                   <source
