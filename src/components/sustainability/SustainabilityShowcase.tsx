@@ -141,7 +141,10 @@ const SustainabilityShowcase: React.FC = () => {
               triggerClassName={`
                 z-10 
                 border-2 
-                ${activeTooltipIndex === index ? 'border-green-500 bg-white/40' : 'border-green-300'}
+                ${activeTooltipIndex === index 
+                  ? 'border-green-500 bg-white/40' 
+                  : 'border-green-300 animate-pulse-gentle'
+                }
               `}
               // Only trigger on click for mobile-friendliness
               triggerOnHover={false}
@@ -171,6 +174,30 @@ const SustainabilityShowcase: React.FC = () => {
           Our sustainable design approach focuses on environmentally responsible materials and construction methods.
         </p>
       </div>
+
+      {/* Add pulse animation CSS */}
+      <style>{`
+        @keyframes pulse-gentle {
+          0% {
+            box-shadow: 0 0 0 0 rgba(134, 239, 172, 0.7);
+            transform: scale(1.05);
+          }
+          
+          70% {
+            box-shadow: 0 0 0 6px rgba(134, 239, 172, 0);
+            transform: scale(1.5);
+          }
+          
+          100% {
+            box-shadow: 0 0 0 0 rgba(134, 239, 172, 0);
+            transform: scale(1);
+          }
+        }
+        
+        .animate-pulse-gentle {
+          animation: pulse-gentle 3s infinite;
+        }
+      `}</style>
     </section>
   );
 };

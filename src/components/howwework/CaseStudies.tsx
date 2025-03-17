@@ -60,16 +60,22 @@ const CaseStudies: React.FC = () => {
     const offsetX = clientX - rect.left;
     const percentage = (offsetX / rect.width) * 100;
 
-    (sliderRefs.current[index]!.querySelector(".after-image") as HTMLElement)!.style.clipPath =
-      `inset(0 ${100 - percentage}% 0 0)`;
+    const afterImageEl = sliderRefs.current[index]!.querySelector(".after-image") as HTMLElement;
+    const dividerEl = sliderRefs.current[index]!.querySelector(".slider-divider") as HTMLElement;
+    
+    afterImageEl.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+    dividerEl.style.left = `${percentage}%`;
   };
 
   return (
     <section ref={caseStudiesRef} className="py-12 sm:py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-black text-center mb-8 sm:mb-12 md:mb-16">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-black text-center mb-8 sm:mb-12 md:mb-8">
           TRANSFORMATIONS
         </h2>
+        <p className="text-[#C4A661] text-center text-lg sm:text-xl mb-8 font-medium">
+          Slide on the images to compare
+        </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {caseStudies.map((study, index) => (
             <div
@@ -104,6 +110,11 @@ const CaseStudies: React.FC = () => {
                     loading="lazy"
                   />
                 </div>
+                {/* Pulsing Divider Line */}
+                <div 
+                  className="slider-divider absolute top-0 bottom-0 w-1 bg-[#C4A661] shadow-[0_0_8px_rgba(196,166,97,0.8)] z-10 animate-pulse" 
+                  style={{ left: '50%', transform: 'translateX(-50%)' }}
+                ></div>
                 {/* Slider Instruction */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="text-white text-sm bg-black/70 backdrop-blur-sm px-4 py-2 rounded-full">
