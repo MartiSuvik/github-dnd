@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /private/
+
+Sitemap: https://monumental-eclair-a428e9.netlify.app/sitemap.xml

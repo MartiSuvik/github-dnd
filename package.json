@@ -1,0 +1,51 @@
+{
+  "name": "dd-design-center",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@relume_io/relume-tailwind": "^1.3.0",
+    "@relume_io/relume-ui": "^1.3.0",
+    "@tanstack/react-virtual": "^3.12.0",
+    "@types/react": "^18.x",
+    "@types/react-dom": "^18.x",
+    "airtable": "^0.12.2",
+    "clsx": "^2.0.0",
+    "container-query-polyfill": "^1.0.2",
+    "framer-motion": "^11.0.8",
+    "gsap": "^3.x",
+    "lucide-react": "^x.x",
+    "react": "^18.x",
+    "react-dom": "^18.x",
+    "react-helmet": "^6.1.0",
+    "react-intersection-observer": "^9.5.3",
+    "react-particles": "^2.12.2",
+    "react-router-dom": "^6.22.3",
+    "react-swipeable": "^7.0.1",
+    "tailwind-merge": "^1.14.0",
+    "tsparticles": "^2.12.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.1",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@types/airtable": "^0.10.5",
+    "@types/react-helmet": "^6.1.11",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.18",
+    "eslint": "^9.9.1",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.11",
+    "globals": "^15.9.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.3.0",
+    "vite": "^5.4.2"
+  }
+}

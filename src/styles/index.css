@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    @supports not (scroll-behavior: smooth) {
+      scroll-behavior: auto;
+    }
+    height: 100%;
+  }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    min-height: 100%;
+    position: relative;
+    padding-bottom: 4rem;
+    overflow-x: hidden;
+    font-size: 16px;
+  }
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* Basic animation keyframes for marquee */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+.animate-marquee {
+  animation: marquee var(--duration, 120s) linear infinite;
+}
+
+@layer components {
+  .project-card {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: opacity 0.25s ease-out;
+    will-change: transform;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (hover: hover) {
+    .project-card:hover {
+      transform: scale(1.03) translateZ(0);
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  @media (hover: none) {
+    .project-card:active {
+      transform: scale(1.02) translateZ(0);
+    }
+  }
+}
+
+/* Responsive navigation layout for different screen heights */
+/* For screens with height < 630px - Horizontal layout */
+@media (max-height: 630px) {
+  .responsive-nav-menu {
+    /* Container styles */
+    display: flex !important;
+    flex-direction: column !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+  
+  .responsive-nav-menu nav {
+    /* Grid layout for menu items */
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+  
+  .responsive-nav-menu .navbar-logo {
+    /* Smaller logo for compact mode */
+    height: 2.5rem !important;
+    width: auto !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .nav-item-compact {
+    /* Compact menu item styling */
+    font-size: 0.95rem !important;
+    padding: 0.5rem 0.2rem !important; /* Reduced padding */
+    margin: 0 !important;
+    white-space: nowrap !important; /* Prevent text wrapping */
+    width: 100% !important; /* Ensure full width */
+  }
+  
+  /* Make sure container doesn't overflow */
+  .responsive-nav-menu .md\:px-12 {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  /* Reduce padding on bottom mobile contact section */
+  .responsive-nav-menu + .md\:hidden {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+}
+
+/* For really small heights, make even more compact */
+@media (max-height: 450px) {
+  .responsive-nav-menu nav {
+    gap: 0.4rem !important;
+  }
+  
+  .nav-item-compact {
+    min-height: 32px !important;
+    font-size: 0.85rem !important;
+    padding: 0.2rem 0.4rem !important;
+  }
+  
+  .responsive-nav-menu .navbar-logo {
+    height: 1.75rem !important;
+  }
+  
+  .responsive-nav-menu + .md\:hidden {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+}
+
+/* The original styles below are kept but adjusted as needed */
+@media (max-height: 800px) {
+  /* Adjust logo size */
+  .navbar-logo {
+    max-height: 2.5rem;
+    width: auto;
+  }
+  /* Reduce vertical padding for the menu container */
+  .navbar-menu-container {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  /* Adjust nav items font size and spacing */
+  .navbar-menu-container .nav-item {
+    font-size: 0.9rem;
+    margin: 0.25rem 0;
+  }
+}
+
+/* For the sub-cards layer only */
+.sub-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+/* From 896px and above => flex + center + expansions */
+@media (min-width: 896px) {
+  .sub-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+/* Base mobile card style */
+.card {
+  width: 100%;
+  height: 300px;  /* Adjust to your mobile preference */
+  transition: all 0.3s ease;
+}
+
+/* Desktop expansions at 896px+ */
+@media (min-width: 896px) {
+  .card {
+    width: 250px;   /* default card width on desktop */
+    height: 450px;  /* default card height on desktop */
+  }
+  .card.active {
+    width: 300px;   /* expanded card width on desktop */
+  }
+}
+
+/* Custom media query for 1200px breakpoint */
+@media (min-width: 1200px) {
+  .custom-md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .custom-md\:p-8 {
+    padding: 2rem;
+  }
+  .custom-md\:flex-wrap {
+    flex-wrap: wrap;
+  }
+  .custom-md\:flex {
+    display: flex;
+  }
+}
