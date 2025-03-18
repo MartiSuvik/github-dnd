@@ -72,18 +72,51 @@ const VisionnaireCTA: React.FC<CallToActionProps> = ({}) => {
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 overflow-hidden bg-gradient-to-b from-[#272727] to-[#545454]"
+      className="relative min-h-[400px] w-full"
     >
-      <div className="relative max-w-4xl mx-auto text-center px-4">
-        <h2
+      {/* Hidden image for SEO indexing */}
+      <div className="hidden">
+        <img
+          src="https://res.cloudinary.com/designcenter/image/upload/Luxury%20Custom%20Furniture%20and%20Interior%20Design%20%E2%80%93%20DnD%20Design%20Center%20NYC.avif"
+          alt="Luxury interior space featuring custom-designed sofas and handcrafted marble coffee table by D&D Design Center in Brooklyn."
+          loading="lazy"
+        />
+      </div>
+
+      {/* Background image with better ARIA attributes */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage:
+            'url("https://res.cloudinary.com/designcenter/image/upload/Luxury%20Custom%20Furniture%20and%20Interior%20Design%20%E2%80%93%20DnD%20Design%20Center%20NYC.avif")',
+        }}
+        aria-hidden="true"
+      >
+        {/* Light black overlay */}
+        <div className="absolute inset-0 bg-black/30" />
+      </div>
+
+      {/* Bottom fade overlay */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-white" />
+
+      {/* Content area */}
+      <div className="relative h-full min-h-[400px] flex flex-col items-center justify-center text-center px-4 py-16">
+        <h2 
           ref={headlineRef}
-          className="text-5xl font-serif mb-4 bg-gradient-to-b from-white via-white to-white/10 bg-clip-text text-transparent"
+          className="text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-4"
         >
-          Transform Your Vision Into Reality
+          D&D Design Center<br />Luxury Custom Furniture Across America
         </h2>
-        <p className="text-xl text-white/60 mb-12">
+        
+        {/* Hidden description for screen readers */}
+        <span className="sr-only">
+          D&D Design Center bespoke furniture solutions in New York City
+        </span>
+        
+        <p className="text-xl text-white mb-12">
           Book Your Complimentary Consultation
         </p>
+        
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <button
             ref={button1Ref}

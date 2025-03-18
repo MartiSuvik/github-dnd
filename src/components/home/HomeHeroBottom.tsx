@@ -28,9 +28,9 @@ const HomeHeroBottom = () => {
 
       {/* Content area */}
       <div className="relative h-full min-h-[400px] flex flex-col items-center justify-center text-center px-4 py-16">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-4">
-          Luxury Bespoke Furniture in New York City
-        </h2>
+      <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-4">
+        D&D Design Center<br />Luxury Custom Furniture Across America
+      </h2>
         {/* Hidden description for screen readers */}
         <span className="sr-only">
           D&D Design Center bespoke furniture solutions in New York City

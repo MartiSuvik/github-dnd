@@ -11,7 +11,7 @@ interface CallToActionProps {
   triggerFooterContact: () => void;
 }
 
-const SustainabilityCTA: React.FC<CallToActionProps> = ({}) => {
+const BlogCTA: React.FC<CallToActionProps> = ({}) => {
   const { ref: sectionRef, inView } = useInView({
     threshold: 0.2,
     triggerOnce: true,
@@ -139,4 +139,4 @@ const SustainabilityCTA: React.FC<CallToActionProps> = ({}) => {
   );
 };
 
-export default SustainabilityCTA;
+export default BlogCTA;

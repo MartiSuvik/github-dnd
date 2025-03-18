@@ -172,7 +172,7 @@ const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={toggleMute}
                 className={`flex items-center justify-center w-10 h-10 ${
-                  isScrolled ? 'text-white' : 'text-white'
+                  isScrolled ? 'text-black' : 'text-white'
                 } hover:scale-110 transition-all duration-300 bg-[#C5A267] md:bg-transparent rounded-full`}
                 aria-label={isMuted ? 'Unmute background music' : 'Mute background music'}
               >
