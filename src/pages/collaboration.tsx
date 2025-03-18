@@ -7,6 +7,7 @@ import VisionnaireThankYou from '../components/collaboration/VisionnaireThankYou
 import { HeroScrollDemo } from '../components/ui/HeroScrollDemo';
 import { GridMotionDemo } from '../components/collaboration/GridMotionDemo';
 import { useFooterContact } from '../hooks/useFooterContact';
+import { Helmet } from 'react-helmet';
 
 const Collaboration = () => {
   useEffect(() => {
@@ -17,7 +18,11 @@ const Collaboration = () => {
   const { triggerFooterContact } = useFooterContact();
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="relative min-h-screen bg-white">
+      <Helmet>
+        <title>D&D Design Center | Collaboration</title>
+        <meta name="description" content="Learn about our collaborations with top designers and brands at D&D Design Center." />
+      </Helmet>
       <main>
         <VisionnaireHero />
         <VisionnaireIntroWithLoopingWords />

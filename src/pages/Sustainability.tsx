@@ -6,6 +6,7 @@ import SustainabilityStats from '../components/sustainability/SustainabilityStat
 import SustainabilityPath from '../components/sustainability/SustainabilityPath';
 import SustainabilityCTA from '../components/sustainability/SustainabilityCTA';
 import { useFooterContact } from '../hooks/useFooterContact';
+import { Helmet } from 'react-helmet';
 
 const Sustainability = () => {
   useEffect(() => {
@@ -26,6 +27,10 @@ const Sustainability = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>D&D Design Center | Sustainability</title>
+        <meta name="description" content="Discover our commitment to sustainability and eco-friendly practices at D&D Design Center." />
+      </Helmet>
       <SustainabilityHero />
       <SustainabilityHighlights
         triggerFooterContact={triggerFooterContact}
@@ -36,7 +41,6 @@ const Sustainability = () => {
       <SustainabilityPath />
       <SustainabilityCTA
         triggerFooterContact={triggerFooterContact}
-        scrollToProjects={() => {}}
       />
     </div>
   );

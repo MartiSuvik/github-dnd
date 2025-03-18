@@ -7,6 +7,7 @@ import HowWeWorkCallToAction from '../components/howwework/HowWeWorkCallToAction
 import { FeatureStepsDemo } from '../components/howwework/FeatureStepsDemo';
 import { AnimatePresence } from 'framer-motion';
 import { useFooterContact } from '../hooks/useFooterContact';
+import { Helmet } from 'react-helmet';
 
 const testimonials = [
   {
@@ -87,6 +88,10 @@ const HowWeWork = () => {
 
   return (
     <div className="min-h-screen bg-[#1A1A1A]">
+      <Helmet>
+        <title>D&D Design Center | How We Work</title>
+        <meta name="description" content="Learn about our process and how we create luxury custom furniture at D&D Design Center." />
+      </Helmet>
       <HowWeWorkHero />
       <HowWeWorkStages />
       <AnimatePresence mode="sync">
@@ -100,7 +105,6 @@ const HowWeWork = () => {
       />
       <HowWeWorkCallToAction
         triggerFooterContact={triggerFooterContact}
-        scrollToProjects={() => {}}
       />
     </div>
   );

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import BlogHero from '../components/blog/BlogHero';
 import BlogGrid from '../components/blog/BlogGrid';
 import BlogCTA from '../components/blog/BlogCTA';
+import { Helmet } from 'react-helmet';
 
 const Blog = () => {
  
@@ -18,6 +19,10 @@ const Blog = () => {
   }
   return (
     <div className="min-h-screen bg-white">
+      <Helmet>
+        <title>D&D Design Center | Blog</title>
+        <meta name="description" content="Read the latest news and updates from D&D Design Center on our blog." />
+      </Helmet>
       <main className="pt-16 md:pt-20">
         <BlogHero />
         <BlogGrid />

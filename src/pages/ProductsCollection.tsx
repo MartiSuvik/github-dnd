@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import ProductCollectionHero from '../components/productcollection/ProductCollectionHero';
 import ProductCollectionVisionnaire from '../components/productcollection/ProductCollectionVisionnaire';
 import ProductCollectionInfo from '../components/productcollection/ProductCollectionInfo';
@@ -9,6 +9,7 @@ import { ProductCollectionSteps } from '../components/productcollection/ProductC
 import { HeroScrollDemoProduct } from '../components/ui/HeroScrollDemoProduct';
 import ProductCollectionCTA from '../components/productcollection/ProductCollectionCTA';
 import { useFooterContact } from '../hooks/useFooterContact';
+import { Helmet } from 'react-helmet';
 
 const ProductsCollection = () => {
   // State for UI
@@ -16,7 +17,7 @@ const ProductsCollection = () => {
   const [, setLoadMoreCount] = useState(1);
 
   // Intersection observer for infinite scroll
-  const { ref: infiniteScrollRef, inView } = useInView({
+  const { inView } = useInView({
     threshold: 0.1,
     triggerOnce: false,
   });
@@ -86,29 +87,20 @@ const ProductsCollection = () => {
           <span className="ml-2 text-sm text-gray-600">Refreshing...</span>
         </div>
       )}
-
-      {/* Mobile-optimized hero - should load quickly */}
+      <Helmet>
+        <title>D&D Design Center | Products Collection</title>
+        <meta name="description" content="Explore our exclusive collection of luxury custom furniture at D&D Design Center." />
+      </Helmet>
       <ProductCollectionHero />
-
-      {/* Main product gallery with lazy loading */}
       <ProductGalleryContent />
-
-      {/* Lazy loaded sections */}
       <ProductCollectionVisionnaire />
       <ProductCollectionSteps />
-
-      {/* HeroScrollDemo - lazy loaded */}
       <div className="w-full">
         <HeroScrollDemoProduct />
       </div>
-
-      {/* Contact information */}
       <ProductCollectionInfo />
-
-      {/* Call to action */}
       <ProductCollectionCTA 
         triggerFooterContact={triggerFooterContact} 
-        scrollToProjects={() => {}} 
       />
     </div>
   );
