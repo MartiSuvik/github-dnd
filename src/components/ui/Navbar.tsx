@@ -134,7 +134,7 @@ const Navbar: React.FC<NavbarProps> = ({
         muted={isMuted}
       >
         <source 
-          src="https://res.cloudinary.com/designcenter/video/upload/Thunder_Music.mp3" 
+          src="https://res.cloudinary.com/designcenter/video/upload/Long_Version_Mix_3.mp3" 
           type="audio/mpeg" 
         />
       </audio>
@@ -264,7 +264,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 <nav className={`items-start relative z-10 ${
                   isCompactMode 
                     ? "grid grid-cols-2 gap-x-4 gap-y-3" 
-                    : "flex flex-col space-y-6 md:space-y-8"
+                    : "flex flex-col space-y-6 md:space-y-4"
                 }`}>
                   {menuItems.map((item, index) => {
                     const handleItemClick = () => {
