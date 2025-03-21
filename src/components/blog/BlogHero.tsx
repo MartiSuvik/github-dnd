@@ -6,9 +6,13 @@ const BlogHero = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
-    <section className="relative py-20 md:py-28 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800" />
-      
+    <section 
+      className="relative py-20 md:py-28 overflow-hidden bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('https://res.cloudinary.com/designcenter/image/upload/Home/Product_2/Kitchen/Modern/Kitchen_Modern_5.avif')" }} // Change to your actual image path
+    >
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-black bg-opacity-50 dark:bg-opacity-70" />
+
       <motion.div 
         className="container mx-auto px-4 relative z-10"
         initial={{ opacity: 0, y: 20 }}
@@ -17,7 +21,7 @@ const BlogHero = () => {
       >
         <div className="max-w-4xl mx-auto text-center">
           <motion.h1 
-            className="text-4xl md:text-6xl font-serif mb-6 dark:text-white"
+            className="text-4xl md:text-6xl font-serif mb-6 text-white"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -26,7 +30,7 @@ const BlogHero = () => {
           </motion.h1>
           
           <motion.p 
-            className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-12"
+            className="text-lg md:text-xl text-gray-300 mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
