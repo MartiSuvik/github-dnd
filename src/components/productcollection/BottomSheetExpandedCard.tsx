@@ -1,7 +1,7 @@
 'use client';
 import { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
-import { X, ArrowRight } from 'lucide-react';
+import { X, ArrowRight, Maximize2 } from 'lucide-react';
 
 interface Project {
   title: string;
@@ -25,6 +25,7 @@ const BottomSheetExpandedCard: React.FC<BottomSheetExpandedCardProps> = ({ proje
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [isLandscape, setIsLandscape] = useState(false);
   const [isShortScreen, setIsShortScreen] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   // Check for landscape orientation and short screen
   useEffect(() => {
@@ -129,6 +130,15 @@ const BottomSheetExpandedCard: React.FC<BottomSheetExpandedCardProps> = ({ proje
     }
   };
 
+  // Handle fullscreen image view
+  const openFullScreen = () => {
+    setIsFullScreen(true);
+  };
+
+  const closeFullScreen = () => {
+    setIsFullScreen(false);
+  };
+
   return (
     <div className="fixed inset-0 z-50">
       {/* Background overlay */}
@@ -138,6 +148,24 @@ const BottomSheetExpandedCard: React.FC<BottomSheetExpandedCardProps> = ({ proje
         aria-hidden="true"
       />
 
+      {/* Full Screen Image Overlay */}
+      {isFullScreen && (
+        <div className="fixed inset-0 z-[60] bg-black flex items-center justify-center">
+          <button
+            onClick={closeFullScreen}
+            className="absolute top-4 right-4 p-3 bg-black/40 hover:bg-black/60 rounded-full transition-colors duration-300"
+            aria-label="Close full screen view"
+          >
+            <X className="w-6 h-6 text-white" />
+          </button>
+          <img
+            src={project.imageUrl}
+            alt={project.title}
+            className="max-h-screen max-w-full object-contain p-4"
+          />
+        </div>
+      )}
+
       {/* Bottom sheet container */}
       <div
         ref={sheetRef}
@@ -145,7 +173,7 @@ const BottomSheetExpandedCard: React.FC<BottomSheetExpandedCardProps> = ({ proje
         style={{ 
           height: 'auto', 
           maxHeight: isShortScreen ? '95vh' : '90vh',
-          minHeight: isShortScreen ? '65vh' : '40vh'
+          minHeight: isShortScreen ? '65vh' : '50vh'
         }}
         role="region"
         aria-label={`Expanded details for ${project.title}`}
@@ -159,11 +187,19 @@ const BottomSheetExpandedCard: React.FC<BottomSheetExpandedCardProps> = ({ proje
                 paddingTop: isShortScreen ? '30%' : (isLandscape ? '30%' : (window.innerWidth < 640 ? '40%' : window.innerWidth < 768 ? '45%' : window.innerWidth < 1024 ? '75%' : '66.67%')),
               }}
             >
+              {/* Magnifying glass button */}
+              <button
+                onClick={openFullScreen}
+                className={`absolute ${isShortScreen ? 'top-1 right-1' : 'top-2 right-2'} p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors duration-300 z-10`}
+                aria-label="View image full screen"
+              >
+                <Maximize2 className={`${isShortScreen ? 'w-4 h-4' : 'w-5 h-5'} text-white`} />
+              </button>
               <img
                 ref={imageRef}
                 src={project.imageUrl}
                 alt={project.title}
-                className={`${isShortScreen && isLandscape ? 'relative' : 'absolute'} inset-0 w-full h-full object-cover`}
+                className={`${isShortScreen && isLandscape ? 'relative' : 'absolute'} inset-0 w-full object-cover`}
               />
             </div>
           </div>

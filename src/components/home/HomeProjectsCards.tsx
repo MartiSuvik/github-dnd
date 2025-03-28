@@ -290,7 +290,7 @@ const HomeProjectsCards = () => {
           const category = mainCategories.find(
             (cat) => cat.id === currentParentId
           )?.title;
-          const label = category === "FURNITURE" ? "ROOM" : "STYLE";
+          const label = category === "FURNITURE";
           return (
             <div className="absolute top-2 left-2 z-10 p-1">
               <h2 className="text-sm md:text-base font-serif text-white">
@@ -449,7 +449,7 @@ const HomeProjectsCards = () => {
           </button>
         )}
 
-        <Link to="/ProductsCollection" className="w-full sm:w-48">
+        <Link to="/productscollection" className="w-full sm:w-48">
           <button
             className="
         w-full sm:w-48 h-[44px]

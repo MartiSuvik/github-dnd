@@ -78,7 +78,7 @@ const HomeHeroTop = () => {
   poster="https://res.cloudinary.com/designcenter/image/upload/Hero_Video_Banner.avif"
 >
   <source
-    src="https://res.cloudinary.com/designcenter/video/upload/f_auto,q_auto:low/Hero_Luxury_Decor_Showcase.mp4"
+    src="https://res.cloudinary.com/designcenter/video/upload/f_auto,q_auto:low/Hero_Luxury_Decor_Showcase_Slow_Motion.mp4"
     type="video/mp4"
   />
   Your browser does not support the video tag.

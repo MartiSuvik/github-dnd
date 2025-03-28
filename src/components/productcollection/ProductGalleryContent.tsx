@@ -90,7 +90,7 @@ const ProductGalleryContent: React.FC = () => {
     'Bath',
     'Outdoor',
     'Office',
-    'Closets'
+    'Closet'
   ];
 
   const kitchenStyles = ['Modern', 'Traditional', 'Art_Deco'];
@@ -258,7 +258,7 @@ const ProductGalleryContent: React.FC = () => {
               <div
                 key={project.id}
                 ref={(el) => (cardRefs.current[cardIndex] = el)}
-                className="group relative overflow-hidden cursor-pointer bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300"
+                className="group relative overflow-hidden cursor-pointer bg-white shadow-sm hover:shadow-md transition-all duration-300"
                 onClick={() => handleProjectClick(project.id)}
                 role="button"
                 tabIndex={0}
@@ -371,7 +371,7 @@ const ProductGalleryContent: React.FC = () => {
                       setActiveTab('styles');
                     }
                   }}
-                  className={`text-base md:text-lg transition-colors duration-300 px-3 py-2 rounded-full ${
+                  className={`text-base md:text-lg transition-colors duration-300 px-3 py-2 ${
                     selectedRoom === room
                       ? 'bg-[#C5A267] text-white'
                       : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
@@ -390,7 +390,7 @@ const ProductGalleryContent: React.FC = () => {
                 <button
                   ref={(el) => (styleRefs.current[0] = el)}
                   onClick={() => setSelectedStyle('all')}
-                  className={`text-sm md:text-base transition-colors duration-300 px-3 py-2 rounded-full ${
+                  className={`text-sm md:text-base transition-colors duration-300 px-3 py-2 ${
                     selectedStyle === 'all'
                       ? 'bg-[#C5A267] text-white'
                       : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
@@ -404,7 +404,7 @@ const ProductGalleryContent: React.FC = () => {
                     key={style}
                     ref={(el) => (styleRefs.current[idx + 1] = el)}
                     onClick={() => setSelectedStyle(style)}
-                    className={`text-sm md:text-base transition-colors duration-300 px-3 py-2 rounded-full ${
+                    className={`text-sm md:text-base transition-colors duration-300 px-3 py-2 ${
                       selectedStyle === style
                         ? 'bg-[#C5A267] text-white'
                         : 'bg-gray-100 text-gray-800 hover:bg-gray-200'

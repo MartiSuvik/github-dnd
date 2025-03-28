@@ -68,7 +68,7 @@ export const mainCategories: Category[] = [
     subcategories: [
       {
         id: 201,
-        title: "LIVING ROOM",
+        title: "LIVING",
         subtitle: "Living Space",
         description: "Refined living room furniture designed to bring timeless elegance and comfort to your home.",
         image: "https://res.cloudinary.com/designcenter/image/upload/Luxury%20Living%20Room%20Design%20%E2%80%93%20Custom%20Sofas%20and%20Decor%20NYC.avif",
@@ -76,7 +76,7 @@ export const mainCategories: Category[] = [
       },
       {
         id: 202,
-        title: "DINING ROOM",
+        title: "DINING",
         subtitle: "Dining Space",
         description: "Exquisite handcrafted dining tables and seating, creating the perfect ambiance for memorable gatherings.",
         image: "https://res.cloudinary.com/designcenter/image/upload/Luxury%20Dining%20Room%20Furniture%20%E2%80%93%20Custom%20Tables%20and%20Seating.avif",

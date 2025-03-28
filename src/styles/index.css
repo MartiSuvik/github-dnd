@@ -104,21 +104,70 @@
     /* Grid layout for menu items */
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.75rem !important;
+    gap: 0rem !important;
     width: 100% !important;
     margin: 0 auto !important;
   }
   
   .responsive-nav-menu .navbar-logo {
     /* Smaller logo for compact mode */
-    height: 2.5rem !important;
+    height: 5rem !important;
     width: auto !important;
     margin-bottom: 0.5rem !important;
   }
   
   .nav-item-compact {
     /* Compact menu item styling */
-    font-size: 0.95rem !important;
+    font-size: 2rem !important;
+    padding: 0.5rem 0.2rem !important; /* Reduced padding */
+    margin: 0rem !important;
+    white-space: nowrap !important; /* Prevent text wrapping */
+    width: 100% !important; /* Ensure full width */
+  }
+  
+  /* Make sure container doesn't overflow */
+  .responsive-nav-menu .md\:px-12 {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  /* Reduce padding on bottom mobile contact section */
+  .responsive-nav-menu + .md\:hidden {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+}
+
+/* For screens with height < 630px AND width < 767px - Horizontal layout */
+@media (max-height: 630px) and (max-width: 767px) {
+  .responsive-nav-menu {
+    /* Container styles */
+    display: flex !important;
+    flex-direction: column !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+  
+  .responsive-nav-menu nav {
+    /* Grid layout for menu items */
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.1rem !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+  
+  .responsive-nav-menu .navbar-logo {
+    /* Smaller logo for compact mode */
+    height: 5rem !important;
+    width: auto !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .nav-item-compact {
+    /* Compact menu item styling */
+    font-size: 2rem !important;
     padding: 0.5rem 0.2rem !important; /* Reduced padding */
     margin: 0 !important;
     white-space: nowrap !important; /* Prevent text wrapping */
@@ -138,20 +187,68 @@
   }
 }
 
-/* For really small heights, make even more compact */
-@media (max-height: 450px) {
-  .responsive-nav-menu nav {
-    gap: 0.4rem !important;
+/* For screens with height < 630px AND width >= 767px - Vertical layout with smaller font */
+@media (max-height: 630px) and (min-width: 767px) {
+  .responsive-nav-menu {
+    /* Container styles */
+    display: flex !important;
+    flex-direction: column !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    padding: 0.5rem 0.75rem !important;
   }
   
-  .nav-item-compact {
-    min-height: 32px !important;
-    font-size: 0.85rem !important;
-    padding: 0.2rem 0.4rem !important;
+  .responsive-nav-menu nav {
+    /* Vertical layout for menu items */
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    margin: 0 auto !important;
   }
   
   .responsive-nav-menu .navbar-logo {
-    height: 1.75rem !important;
+    /* Smaller logo for compact mode */
+    height: 5rem !important;
+    width: auto !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .nav-item-compact {
+    /* Compact menu item styling with smaller font size */
+    font-size: 1.5rem !important;
+    padding: 0.1rem 0 !important;
+    margin: 0 !important;
+    text-align: center !important;
+    width: 100% !important;
+  }
+  
+  /* Make sure container doesn't overflow */
+  .responsive-nav-menu .md\:px-12 {
+    padding-left: 1.3rem !important;
+    padding-right: 0.5rem !important;
+  }
+  
+  /* Reduce padding on bottom mobile contact section */
+  .responsive-nav-menu + .md\:hidden {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+}
+
+/* For really small heights, make even more compact */
+@media (max-height: 450px) {
+  .responsive-nav-menu nav {
+    gap: 0rem !important;
+  }
+  
+  .nav-item-compact {
+    min-height: 1px !important;
+    font-size: 1.3rem !important;
+    padding: 0rem 0rem !important;
+  }
+  
+  .responsive-nav-menu .navbar-logo {
+    height: 4rem !important;
   }
   
   .responsive-nav-menu + .md\:hidden {
@@ -164,7 +261,7 @@
 @media (max-height: 800px) {
   /* Adjust logo size */
   .navbar-logo {
-    max-height: 2.5rem;
+    max-height: 10rem;
     width: auto;
   }
   /* Reduce vertical padding for the menu container */

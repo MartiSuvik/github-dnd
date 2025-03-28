@@ -78,7 +78,7 @@ const testimonials = [
 ];
 
 const HowWeWork = () => {
-  // Add useEffect for initial scroll behavior like in ProductsCollection
+  // Add useEffect for initial scroll behavior like in
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

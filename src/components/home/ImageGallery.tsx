@@ -37,7 +37,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
   const virtualizer = useVirtualizer({
     count: photos.length,
     getScrollElement: () => thumbnailsRef.current,
-    estimateSize: () => 97, // 77px + 20px for spacing and borders
+    estimateSize: () => 77, // Reduced from 97 to bring thumbnails closer together
     overscan: 5,
     horizontal: true,
   });
@@ -51,18 +51,22 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
     try {
       setIsLoading(true);
       setError(null);
-      
-      
 
       const base = new Airtable({ apiKey: import.meta.env.VITE_AIRTABLE_API_KEY })
         .base(import.meta.env.VITE_AIRTABLE_BASE_ID);
-  
+
         function normalizeRoom(room: string): string {
+          // Special case for "Light" which is considered a room
+          if (room.trim().toLowerCase() === "light") return "Light";
+          
           let lower = room.trim().toLowerCase();
           return lower.charAt(0).toUpperCase() + lower.slice(1);
         }
-
+        
         function normalizeStyle(style: string): string {
+          // Handle empty or "NONE" style cases
+          if (!style || style.trim().toLowerCase() === "none") return "NONE";
+          
           if (style.trim().toLowerCase() === "art_deco") return "Art_Deco"; // Special case
           return style
             .trim()
@@ -70,16 +74,15 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
             .split(/\s+/) // Split by spaces
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join("_"); // Join with underscores
-        }        
-        
-  
+        }
+
       // ✅ Always treat the first argument as the Room, second as the Style
       const normalizedRoom = normalizeRoom(category);
       const normalizedStyle = normalizeStyle(style);
-  
+
       console.log("Normalized Room:", normalizedRoom);
       console.log("Normalized Style:", normalizedStyle);
-  
+
       let filterByFormula = "";
       if (normalizedStyle === "NONE") {
         // Only filter by Room
@@ -87,41 +90,48 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
       } else {
         // Filter by both
         filterByFormula = `AND({Room} = '${normalizedRoom}', {Style} = '${normalizedStyle}')`;
-      }      
-  
+      }
+
       const records = await base("database")
         .select({ filterByFormula })
         .all();
-  
+
       console.log("Number of records found:", records.length);
       if (records.length === 0) {
         throw new Error("No images found for this category and style.");
       }
-  
+
       const fetchedPhotos = records.map(record => {
         const publicId = record.fields["Cloudinary URL"] as string;
         let imageUrl = "";
-  
+      
+        // Log the raw publicId for debugging
+        console.log("Raw publicId from Airtable:", publicId);
+      
         if (publicId.startsWith("https://")) {
+          // It's already a full URL
           imageUrl = publicId.endsWith(".avif") ? publicId : `${publicId}.avif`;
+        } else if (publicId.includes("v1")) {
+          // It contains a version number but isn't a full URL
+          imageUrl = `https://res.cloudinary.com/designcenter/image/upload/${publicId}.avif`;
         } else {
+          // No version number, add it directly to base URL
           imageUrl = `https://res.cloudinary.com/designcenter/image/upload/${publicId}.avif`;
         }
-  
-        console.log(
-          `Record ID: ${record.id} | Public ID: ${publicId} | Computed imageUrl: ${imageUrl}`
-        );
-  
+      
+        // Log the computed URL
+        console.log(`Record ID: ${record.id} | Computed imageUrl: ${imageUrl}`);
+      
         return {
           id: record.id,
           url: imageUrl,
           category: record.fields["Room"] as string,
-          style: record.fields["Style"] as string,
+          style: record.fields["Style"] as string || "NONE", // Default to "NONE" if style is missing
         };
       });
-  
+
       setPhotos(fetchedPhotos);
-  
+
       // Preload the first image
       if (fetchedPhotos.length > 0) {
         await preloadImage(fetchedPhotos[0].url);
@@ -133,8 +143,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
       setIsLoading(false);
     }
   };
-  
-  
+
   const preloadImage = (url: string): Promise<void> => {
     if (preloadedImages.current.has(url)) {
       return Promise.resolve();
@@ -197,19 +206,19 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
     setIsImageLoaded(true);
   };
 
-  const handlePrevious = () => {
+  const handlePrevious = useCallback(() => {
     if (photos.length > 0) {
       setCurrentIndex(prev => (prev - 1 + photos.length) % photos.length);
       setAutoplayEnabled(false);
     }
-  };
+  }, [photos.length]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (photos.length > 0) {
       setCurrentIndex(prev => (prev + 1) % photos.length);
       setAutoplayEnabled(false);
     }
-  };
+  }, [photos.length]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.touches[0].clientX);
@@ -245,7 +254,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
     } else if (e.key === 'Escape') {
       onClose();
     }
-  }, [onClose]);
+  }, [onClose, handlePrevious, handleNext]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -263,7 +272,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
         top: scrollHeight - windowHeight,
         behavior: 'smooth'
       });
-      
+
       // After a short delay, trigger the footer's contact button
       setTimeout(() => {
         const footerContactBtn = document.querySelector('[data-footer-contact]') as HTMLButtonElement | null;
@@ -313,9 +322,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
       </div>
 
       <div
-        className={`h-full flex flex-col justify-center items-center pt-12 pb-8 px-4 md:px-8 transition-transform duration-300 ease-in-out ${
+        className={`h-full flex flex-col justify-center items-center pt-0 pb-8 px-4 md:px-8 transition-transform duration-300 ease-in-out ${
           isVisible ? 'translate-y-0' : 'translate-y-4'
-        } ${window.innerHeight <= 690 && window.innerWidth >= 790 ? 'landscape:pt-6 landscape:pb-4' : ''}
+        } ${window.innerHeight <= 690 && window.innerWidth >= 790 ? 'landscape:pt-0 landscape:pb-4' : ''}
         ${window.innerHeight <= 430 ? 'landscape:pt-2 landscape:pb-2 landscape:gap-1' : ''}`}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -325,11 +334,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent" />
         ) : photos.length > 0 && currentPhoto ? (
           <>
-            <div className="relative w-full max-w-[880px] bg-black/30 rounded-lg group
-              h-[300px] md:h-[495px]
-              landscape:h-[40vh] landscape:max-h-[400px]
-              landscape:min-h-[250px]
-              ${window.innerHeight <= 430 ? 'landscape:h-[35vh] landscape:min-h-[180px]' : ''}">
+            <div className="relative w-full max-w-[2000px] bg-black/30 rounded-lg group
+              h-[400px] md:h-[600px] lg:h-[680px] xl:h-[750px]
+              landscape:h-[85vh] landscape:max-h-[600px]
+              landscape:min-h-[300px]
+              ${window.innerHeight <= 430 ? 'landscape:h-[55vh] landscape:min-h-[250px]' : ''}">
               <img
                 ref={mainImageRef}
                 src={currentPhoto.url}
@@ -360,53 +369,53 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
             </div>
 
             {/* Restructure layout for very short screens */}
-            <div className={`w-full max-w-[920px] flex ${window.innerHeight <= 430 ? 'flex-row justify-between items-center gap-2 mt-1' : 'flex-col'}`}>
+            <div className={`w-full max-w-[1100px] flex ${window.innerHeight <= 430 ? 'flex-row justify-between items-center gap-2 mt-1' : 'flex-col'}`}>
               {/* Thumbnails */}
               <div
                 ref={thumbnailsRef}
                 className={`
-                  ${window.innerHeight <= 430 ? 'flex-1 mt-1' : 'mt-4 md:mt-8 max-w-[920px] w-full'}
-                  overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory
-                  landscape:mt-3
-                  ${window.innerHeight <= 430 ? 'landscape:mt-1 landscape:pb-1' : ''}
+                  ${window.innerHeight <= 430 ? 'flex-1 mt-1' : 'mt-2 md:mt-3 max-w-[1100px] w-full'}
+                  overflow-x-auto scrollbar-hide pb-2 snap-x snap-mandatory
+                  landscape:mt-1
+                  ${window.innerHeight <= 430 ? 'landscape:mt-0.5 landscape:pb-0.5' : ''}
                 `}
                 style={{ 
-                  padding: '10px 20px', // Reduced padding for mobile
+                  padding: '4px 10px', // Further reduced padding for closer thumbnails
                   position: 'relative',
                   zIndex: 10,
                   ...(window.innerHeight <= 690 && window.innerWidth >= 790 ? {
-                    padding: '5px 20px', // Further reduced padding for landscape
+                    padding: '2px 8px', // Minimal padding for landscape
                   } : {}),
                   ...(window.innerHeight <= 430 ? {
-                    padding: '2px 5px', // Minimal padding for very short screens
+                    padding: '1px 2px', // Even smaller padding for very short screens
                   } : {})
                 }}
               >
                 <div
                   style={{
                     width: `${virtualizer.getTotalSize()}px`,
-                    height: '77px', // Default height for mobile
+                    height: '50px', // Further reduced from 65px
                     position: 'relative',
                     margin: '0 auto',
                     ...(window.innerHeight <= 690 && window.innerWidth >= 790 ? {
-                      height: '60px', // Smaller height for landscape
+                      height: '40px', // Reduced from 50px
                     } : {}),
                     ...(window.innerHeight <= 430 ? {
-                      height: '40px', // Even smaller height for very short screens
+                      height: '36px', // Reduced from 34px
                     } : {})
                   }}
                 >
                   {virtualizer.getVirtualItems().map(virtualItem => {
                     const photo = photos[virtualItem.index];
                     if (!photo) return null;
-                    
-                    let thumbnailSize = '60px'; // Default size
+
+                    let thumbnailSize = '42px'; // Reduced from 48px
                     if (window.innerHeight <= 430) {
-                      thumbnailSize = '36px'; // Very small for extremely short screens
+                      thumbnailSize = '22px'; // Reduced from 30px
                     } else if (window.innerHeight <= 690 && window.innerWidth >= 790) {
-                      thumbnailSize = '50px'; // Smaller in landscape
+                      thumbnailSize = '34px'; // Reduced from 40px
                     }
-                    
+
                     return (
                       <div
                         key={photo.id}
@@ -417,6 +426,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
                           width: thumbnailSize,
                           height: thumbnailSize,
                           transform: `translateX(${virtualItem.start}px)`,
+                          marginRight: '3px', // Reduced from 5px for tighter spacing
                         }}
                         className={`
                           relative
@@ -427,8 +437,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
                           overflow-hidden
                           ${
                             currentIndex === virtualItem.index
-                              ? 'ring-2 ring-white ring-offset-1 ring-offset-black shadow-xl scale-105'
-                              : 'border border-[#E0E0E0] opacity-50 hover:opacity-80'
+                              ? 'ring-2 ring-black ring-offset-1 ring-offset-black shadow-xl scale-105'
+                              : 'border border-[#E0E0E0] opacity-50 hover:opacity-90'
                           }
                           hover:shadow-lg
                           hover:scale-105
@@ -457,8 +467,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
               {/* Buttons - moved to the side for very short screens */}
               <div className={`
                 ${window.innerHeight <= 430 
-                  ? 'flex-shrink-0 flex flex-row items-center gap-2' 
-                  : 'mt-8 md:mt-12 flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 landscape:mt-4'}
+                  ? 'flex-shrink-0 flex flex-row items-center gap-2 mt-0' 
+                  : 'mt-3 md:mt-4 flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 landscape:mt-1'}
               `}>
                 <Link to="/productscollection">
                   <button className={`

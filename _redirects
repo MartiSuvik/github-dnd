@@ -2,5 +2,5 @@
 https://www.designcenter.netlify.app/* https://designcenter.netlify.app/:splat 301!
 http://www.designcenter.netlify.app/* http://designcenter.netlify.app/:splat 301!
 
-/ProductsCollection    /productscollection    301
+/ProductsCollection    /productscollection    301!
 /*    /index.html   200

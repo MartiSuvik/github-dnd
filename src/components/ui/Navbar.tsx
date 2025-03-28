@@ -172,7 +172,7 @@ const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={toggleMute}
                 className={`flex items-center justify-center w-10 h-10 ${
-                  isScrolled ? 'text-black' : 'text-white'
+                  isScrolled ? 'text-white' : 'text-white'
                 } hover:scale-110 transition-all duration-300 bg-[#C5A267] md:bg-transparent rounded-full`}
                 aria-label={isMuted ? 'Unmute background music' : 'Mute background music'}
               >
@@ -264,7 +264,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 <nav className={`items-start relative z-10 ${
                   isCompactMode 
                     ? "grid grid-cols-2 gap-x-4 gap-y-3" 
-                    : "flex flex-col space-y-6 md:space-y-4"
+                    : "flex flex-col space-y-0 md:space-y-0"
                 }`}>
                   {menuItems.map((item, index) => {
                     const handleItemClick = () => {
@@ -279,9 +279,9 @@ const Navbar: React.FC<NavbarProps> = ({
                         key={item.title}
                         to={item.href}
                         className={`
-                          text-left text-[16px] md:text-[20px] font-serif text-[#2D2D2D] 
-                          hover:text-[#C5A267] transition-colors duration-200 min-h-[44px] 
-                          flex items-center relative pl-6
+                          text-left text-[32px] md:text-[24px] font-serif text-[#2D2D2D] 
+                          hover:text-[#C5A267] transition-colors duration-200 min-h-[38px] 
+                          flex items-center relative pl-1
                           ${isCompactMode ? "nav-item-compact" : ""}
                         `}
                         onClick={handleItemClick}
